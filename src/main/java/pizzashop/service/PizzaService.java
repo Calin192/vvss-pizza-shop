@@ -5,6 +5,8 @@ import pizzashop.model.Payment;
 import pizzashop.model.PaymentType;
 import pizzashop.repository.MenuRepository;
 import pizzashop.repository.PaymentRepository;
+import pizzashop.validator.PaymentValidationException;
+import pizzashop.validator.ValidatorPizzaService;
 
 import java.util.List;
 
@@ -12,17 +14,20 @@ public class PizzaService {
 
     private MenuRepository menuRepo;
     private PaymentRepository payRepo;
+    private ValidatorPizzaService validatorPizzaService;
 
-    public PizzaService(MenuRepository menuRepo, PaymentRepository payRepo){
+    public PizzaService(MenuRepository menuRepo, PaymentRepository payRepo,ValidatorPizzaService validatorPizzaService){
         this.menuRepo=menuRepo;
         this.payRepo=payRepo;
+        this.validatorPizzaService=validatorPizzaService;
     }
 
     public List<MenuDataModel> getMenuData(){return menuRepo.getAll();}
 
     public List<Payment> getPayments(){return payRepo.getAll(); }
 
-    public void addPayment(int table, PaymentType type, double amount){
+    public void addPayment(int table, PaymentType type, double amount) throws PaymentValidationException {
+        validatorPizzaService.validateAddPayment(table, type, amount);
         Payment payment= new Payment(table, type, amount);
         payRepo.add(payment);
     }

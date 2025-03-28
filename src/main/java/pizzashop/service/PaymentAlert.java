@@ -3,6 +3,7 @@ package pizzashop.service;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import pizzashop.model.PaymentType;
+import pizzashop.validator.PaymentValidationException;
 
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class PaymentAlert implements PaymentOperation {
         System.out.println("Payment choice needed...");
         System.out.println("--------------------------");
     }
-      public void showPaymentAlert(int tableNumber, double totalAmount ) {
+      public void showPaymentAlert(int tableNumber, double totalAmount ) throws PaymentValidationException {
         Alert paymentAlert = new Alert(Alert.AlertType.CONFIRMATION);
         paymentAlert.setTitle("Payment for Table "+tableNumber);
         paymentAlert.setHeaderText("Total amount: " + totalAmount);

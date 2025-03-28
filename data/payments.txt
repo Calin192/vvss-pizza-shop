@@ -17,4 +17,8 @@
 1,Card,0.0
 2,Card,24.0
 1,Cash,24.0
+1,Cash,0.0
+2,Card,7.49
 2,Cash,16.0
+1,Cash,0.0
+1,Cash,50.0
