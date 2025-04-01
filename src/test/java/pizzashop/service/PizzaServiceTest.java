@@ -21,13 +21,22 @@ class PizzaServiceTest {
     ValidatorPizzaService validatorPizzaService;
     @ParameterizedTest
     @CsvSource({
-            "1, Cash, 25.5, true",    // valid input
-            "-1, Card, 33, false",    // invalid table
-            "2, Card, -10, false",    // invalid amount
-            "1, Cash, 0, true",       // valid amount, boundary case
-            "-1, Cash, 25.5, false",  // invalid table
-            "2, Cash, -1, false"      // invalid amount
+            "1, Cash, 10, true",   // BVA - min valid table
+            "0, Card, 10, false",  // BVA - sub min invalid table
+            "15, Card, 100, true", // BVA - max valid table
+            "16, Card, 50, true", // BVA - peste max invalid table
+            "5, Cash, 0, true",    // BVA - min valid amount
+            "2, Card, -0.01, false", // BVA - sub min amount
+            "3, Cash, 1000, true"  // BVA - valoare mare amount
     })
+    void testBVA(int table, PaymentType type, double amount, boolean isValid) {
+        if (isValid) {
+            assertDoesNotThrow(() -> service.addPayment(table, type, amount));
+        } else {
+            assertThrows(PaymentValidationException.class, () -> service.addPayment(table, type, amount));
+        }
+    }
+
     @BeforeEach
     void setUp() {
         repoMenu = new MenuRepository("data/menu.txt");
@@ -41,30 +50,7 @@ class PizzaServiceTest {
     void tearDown() {
 
     }
-//    @Test
-//    @DisplayName("Add Payment - Valid Input")
-//    void addPayment_ValidInput() {
-//        assertDoesNotThrow(() -> service.addPayment(1, PaymentType.Cash, 25.5),
-//                "Expected no exception for valid payment data.");
-//    }
-//
-//    @Test
-//    @DisplayName("Add Payment - Invalid Table")
-//    void addPayment_InvalidTable() {
-//        PaymentValidationException exception = assertThrows(PaymentValidationException.class,
-//                () -> service.addPayment(-1, PaymentType.Card, 33),
-//                "Expected PaymentValidationException for invalid table.");
-//        assertEquals("Masa trebuie să fie cel puțin 1.", exception.getMessage());
-//    }
-//
-//    @Test
-//    @DisplayName("Add Payment - Invalid Amount")
-//    void addPayment_InvalidAmount() {
-//        PaymentValidationException exception = assertThrows(PaymentValidationException.class,
-//                () -> service.addPayment(2, PaymentType.Card, -10),
-//                "Expected PaymentValidationException for invalid amount.");
-//        assertEquals("Amount nu poate fi sub 0 .", exception.getMessage());
-//    }
+
 
     @Test
     @DisplayName("ECP - Valid amount")
