@@ -12,6 +12,9 @@ import pizzashop.repository.PaymentRepository;
 import pizzashop.validator.PaymentValidationException;
 import pizzashop.validator.ValidatorPizzaService;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PizzaServiceTest {
@@ -37,14 +40,29 @@ class PizzaServiceTest {
         }
     }
 
-    @BeforeEach
-    void setUp() {
-        repoMenu = new MenuRepository("data/menu.txt");
-        payRepo = new PaymentRepository("data/payments.txt");
-        validatorPizzaService = new ValidatorPizzaService();
-        service = new PizzaService(repoMenu, payRepo, validatorPizzaService);
-
+//    @BeforeEach
+//    void setUp() {
+//        repoMenu = new MenuRepository("data/menu.txt");
+//        payRepo = new PaymentRepository("data/payments.txt");
+//        validatorPizzaService = new ValidatorPizzaService();
+//        service = new PizzaService(repoMenu, payRepo, validatorPizzaService);
+//
+//    }
+@BeforeEach
+void setUp() {
+    // Rescrie fișierul pentru testare curată
+    try (PrintWriter writer = new PrintWriter("data/payments.txt")) {
+        writer.print(""); // șterge conținutul
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+
+    repoMenu = new MenuRepository("data/menu.txt");
+    payRepo = new PaymentRepository("data/payments.txt");
+    validatorPizzaService = new ValidatorPizzaService();
+    service = new PizzaService(repoMenu, payRepo, validatorPizzaService);
+}
+
 
     @AfterEach
     void tearDown() {
@@ -94,4 +112,41 @@ class PizzaServiceTest {
                         || exception.getMessage().contains("Amount nu poate fi sub 0 ."),
                 "Expected exception message to contain both validation errors.");
     }
+    @Test
+    @DisplayName("getTotalAmount - Null payment list")
+    void testGetTotalAmountWithNullPayments() {
+        // folosim reflecție pentru a injecta o listă null dacă e cazul, dar presupunem că lista poate fi goală la început
+        // Sau putem folosi un PaymentRepository falsificat dacă ar fi un mock
+        PaymentRepository emptyRepo = new PaymentRepository("C:\\Users\\bianc\\IdeaProjects\\vvsl\\vvss-pizza-shop\\data\\empty_payments..txt"); // fișier gol
+        PizzaService testService = new PizzaService(repoMenu, emptyRepo, validatorPizzaService);
+
+        double total = testService.getTotalAmount(PaymentType.Cash);
+        assertEquals(0.0, total, "Expected total to be 0.0 for null or empty list");
+    }
+
+
+    @Test
+    @DisplayName("getTotalAmount - No matching payments")
+    void testGetTotalAmountNoMatchingPayments() throws PaymentValidationException {
+        service.addPayment(1, PaymentType.Cash, 20.0);
+        service.addPayment(2, PaymentType.Cash, 30.0);
+
+        double total = service.getTotalAmount(PaymentType.Card);
+        assertEquals(0.0, total, "Expected total to be 0.0 when no payments match type");
+    }
+
+    @Test
+    @DisplayName("getTotalAmount - Matching payments exist")
+    void testGetTotalAmountMatchingPayments() throws PaymentValidationException {
+        service.addPayment(1, PaymentType.Cash, 10.0);
+        service.addPayment(2, PaymentType.Cash, 25.0);
+        service.addPayment(3, PaymentType.Card, 5.0);
+
+        double totalCash = service.getTotalAmount(PaymentType.Cash);
+        double totalCard = service.getTotalAmount(PaymentType.Card);
+
+        assertEquals(35.0, totalCash, "Expected total Cash amount to be 35.0");
+        assertEquals(5.0, totalCard, "Expected total Card amount to be 5.0");
+    }
+
 }
