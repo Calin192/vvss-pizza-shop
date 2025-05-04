@@ -13,7 +13,7 @@ public class MenuRepositoryTest {
     @Test
     void getAll_sizeShouldBeNine() throws URISyntaxException {
 
-        String file ="C:\\Users\\bianc\\IdeaProjects\\vvsl\\vvss-pizza-shop\\data\\menu.txt";
+        String file ="data/menu.txt";
         MenuRepository repo = new MenuRepository(file);
         List<?> all = repo.getAll();
         assertEquals(9, all.size(),
