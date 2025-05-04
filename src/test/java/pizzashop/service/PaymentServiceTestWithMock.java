@@ -6,15 +6,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pizzashop.model.MenuDataModel;
 import pizzashop.model.Payment;
 import pizzashop.model.PaymentType;
+import pizzashop.repository.MenuRepository;
 import pizzashop.repository.PaymentRepository;
 import pizzashop.validator.PaymentValidationException;
 import pizzashop.validator.ValidatorPizzaService;
 
 
+import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,15 +30,34 @@ import static org.mockito.Mockito.*;
 public class PaymentServiceTestWithMock {
     @Mock
     PaymentRepository  paymentRepository;
+    @Mock
+    MenuRepository menuRepository;
     @InjectMocks
     PizzaService paymentService;
     @Mock
     ValidatorPizzaService validatorPizzaService;
     private List<Payment>paymentsList;
+    @Test
+    void getMenuData_sizeShouldBeNine()  {
+
+        // cream o lista cu 9 elemente dummy
+        List<MenuDataModel> dummyMenu = IntStream.range(1,10)
+                .mapToObj(i -> new MenuDataModel("Item"+i, i, i*10.0))
+                .collect(Collectors.toList());
+
+        when(menuRepository.getAll()).thenReturn(dummyMenu);
+        PizzaService svc = new PizzaService(menuRepository, null, null);
+
+        List<MenuDataModel> menu = svc.getMenuData();
+        assertEquals(9, menu.size(),
+                "Sunt 9 tipuri de pizza în fișierul menu.txt");
+    }
     @BeforeEach
     void setUp() throws PaymentValidationException {
         paymentsList=new ArrayList<>();
         when(paymentRepository.getAll()).thenReturn(paymentsList);
+
+
     }
 
     @AfterEach
