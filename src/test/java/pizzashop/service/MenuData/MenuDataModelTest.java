@@ -1,4 +1,4 @@
-package pizzashop.service;
+package pizzashop.service.MenuData;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

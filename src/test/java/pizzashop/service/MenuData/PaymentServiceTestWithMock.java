@@ -1,4 +1,4 @@
-package pizzashop.service;
+package pizzashop.service.MenuData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +11,7 @@ import pizzashop.model.Payment;
 import pizzashop.model.PaymentType;
 import pizzashop.repository.MenuRepository;
 import pizzashop.repository.PaymentRepository;
+import pizzashop.service.PizzaService;
 import pizzashop.validator.PaymentValidationException;
 import pizzashop.validator.ValidatorPizzaService;
 

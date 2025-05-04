@@ -1,4 +1,4 @@
-package pizzashop.integration;
+package pizzashop.service.MenuData;
 
 import org.junit.jupiter.api.*;
 import pizzashop.model.MenuDataModel;
