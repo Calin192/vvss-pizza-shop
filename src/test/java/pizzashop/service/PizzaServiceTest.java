@@ -115,8 +115,7 @@ void setUp() {
     @Test
     @DisplayName("getTotalAmount - Null payment list")
     void testGetTotalAmountWithNullPayments() {
-        // folosim reflecție pentru a injecta o listă null dacă e cazul, dar presupunem că lista poate fi goală la început
-        // Sau putem folosi un PaymentRepository falsificat dacă ar fi un mock
+
         PaymentRepository emptyRepo = new PaymentRepository("C:\\Users\\bianc\\IdeaProjects\\vvsl\\vvss-pizza-shop\\data\\empty_payments..txt"); // fișier gol
         PizzaService testService = new PizzaService(repoMenu, emptyRepo, validatorPizzaService);
 
