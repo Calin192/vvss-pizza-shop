@@ -1,0 +1,10 @@
+pizzashop\service\PizzaServiceMenuStep3Test.class
+pizzashop\service\PizzaServiceRepositoryIntegrationStep3Test.class
+pizzashop\service\PizzaServiceTest.class
+pizzashop\service\MenuDataModelTest.class
+pizzashop\service\MenuRepositoryTest.class
+pizzashop\service\PaymentTest.class
+pizzashop\service\PaymentRepositoryTest.class
+pizzashop\service\PaymentServiceWithMockTest.class
+pizzashop\service\PizzaServiceMenuStep2Test.class
+pizzashop\service\PizzaServiceRepositoryIntegrationStep2Test.class

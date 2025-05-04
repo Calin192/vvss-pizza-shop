@@ -4,7 +4,7 @@ module pizzashop {
     requires javafx.controls;
     requires java.desktop;
 
-    opens pizzashop.model to javafx.base;
+    opens pizzashop.model;
     exports pizzashop.model;
     opens pizzashop to javafx.fxml;
     exports pizzashop;
@@ -19,6 +19,7 @@ module pizzashop {
     opens pizzashop.repository;
     exports pizzashop.validator;
     opens pizzashop.validator;
+
 }
 
 
