@@ -23,7 +23,7 @@ class PaymentRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        String filename="C:\\Users\\bianc\\IdeaProjects\\vvsl\\vvss-pizza-shop\\data\\empty_payments.txt";
+        String filename="data/empty_payments.txt";
         repository=new PaymentRepository(filename);
     }
 

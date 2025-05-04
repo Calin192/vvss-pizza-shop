@@ -116,7 +116,7 @@ void setUp() {
     @DisplayName("getTotalAmount - Null payment list")
     void testGetTotalAmountWithNullPayments() {
 
-        PaymentRepository emptyRepo = new PaymentRepository("C:\\Users\\bianc\\IdeaProjects\\vvsl\\vvss-pizza-shop\\data\\empty_payments.txt"); // fișier gol
+        PaymentRepository emptyRepo = new PaymentRepository("data/empty_payments.txt"); // fișier gol
         PizzaService testService = new PizzaService(repoMenu, emptyRepo, validatorPizzaService);
 
         double total = testService.getTotalAmount(PaymentType.Cash);
