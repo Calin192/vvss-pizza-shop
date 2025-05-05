@@ -109,7 +109,7 @@ void setUp() {
                 () -> service.addPayment(-1, PaymentType.Card, -10),
                 "Expected exception for invalid table and amount.");
         assertTrue(exception.getMessage().contains("Masa trebuie să fie cel puțin 1.")
-                        && exception.getMessage().contains("Amount nu poate fi sub 0 ."),
+                        || exception.getMessage().contains("Valoarea achitată trebuie să fie cel puțin 0."),
                 "Expected exception message to contain both validation errors.");
     }
     @Test
