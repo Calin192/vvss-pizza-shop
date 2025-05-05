@@ -1,11 +1,10 @@
-package pizzashop.service;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pizzashop.model.Payment;
 import pizzashop.model.PaymentType;
 import pizzashop.repository.PaymentRepository;
+import pizzashop.service.PizzaService;
 import pizzashop.validator.PaymentValidationException;
 import pizzashop.validator.ValidatorPizzaService;
 
@@ -13,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PizzaServiceRepositoryIntegrationStep3Test {
 
